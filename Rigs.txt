@@ -1,0 +1,42 @@
+﻿ Listing a = new Listing();
+            a.displayname = "wei";
+            a.address = new Address { street = "34th ave", house = "334", fullstreet = "334 34th ave" };
+
+            Listing b = new Listing();
+            b.displayname = "lou";
+            b.address = new Address { street = "39st", house = "111", fullstreet = "111 39st" };
+
+
+            Listing c = new Listing();
+            c.displayname = "tash";
+            c.address = new Address { street = "34th ave", house = "555", fullstreet = "555 34th ave" };
+
+
+
+            Listing d = new Listing();
+            d.displayname = "freida";
+            d.address = new Address { street = "1st ave", house = "1", fullstreet = "1 1st ave" };
+
+            Listing e = new Listing();
+            e.displayname = "brad";
+            e.address = new Address { street = "85th rd", house = "999", fullstreet = "85th rd" };
+
+            Listing f = new Listing();
+            f.displayname = "stella";
+            f.address = new Address { street = "39st", house = "15130", fullstreet = "15130 39st" };
+
+
+            Listing g = new Listing();
+            g.displayname = "carl";
+            g.address = new Address { street = "89 ct", house = "18", fullstreet = "18 89 ct" };
+
+            Listing h = new Listing();
+            h.displayname = "batty";
+            h.address = new Address { street = "85th rd", house = "888", fullstreet = "888 85th rd" };
+
+
+
+
+            found.AddRange(new List<Listing> { a, b, c, d, e, f, g, h});
+
+            found = found.OrderByDescending(x => x.address.street).ThenBy(x => x.address.house).ToList();

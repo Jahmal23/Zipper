@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Zipper.Models.Listing>
+
+@{
+    ViewBag.Title = "Resultados";
+}
+
+<h2>Resultados da Pesquisa</h2>
+
+
+<table>
+    <tr>
+        <th>
+            Nome
+        </th>
+        <th>
+           Endereço
+        </th>
+        <th>
+           Número
+        </th>
+        <th>
+          Verificado?
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.displayname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.address.fullstreet)
+        </td>
+         <td>
+            @Html.DisplayFor(modelItem => item.phonenumbers[0].fullphone)
+        </td>
+        <td></td>
+    </tr>
+}
+</table>
