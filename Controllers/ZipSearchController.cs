@@ -26,6 +26,8 @@ namespace Zipper.Controllers
             {
                 NameSource namesToSearch = ZipperBLL.GetAllNames();
                 List<Listing> found = ZipperBLL.GetAddresses(namesToSearch, model);
+
+                ViewBag.ZipCode = model.ZipCode;
                 return View("Results", found);
             }
 
