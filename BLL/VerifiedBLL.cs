@@ -13,11 +13,12 @@ namespace Zipper.BLL
 {
     public static class VerifiedBLL
     {
-        private static MongoDatabase GetDatabase()
+        private static MongoDatabase GetLocalDatabase()
         {
             // Create server settings to pass connection string, timeout, etc.
             MongoServerSettings settings = new MongoServerSettings();
             settings.Server = new MongoServerAddress("localhost", 27017);
+
             // Create server object to communicate with our server
             MongoServer server = new MongoServer(settings);
             // Get our database instance to reach collections and data
@@ -26,9 +27,29 @@ namespace Zipper.BLL
             return database;
         }
 
+        private static MongoDatabase GetRemoteDatabase()
+        {
+            // Create server settings to pass connection string, timeout, etc.
+            MongoServerSettings settings = new MongoServerSettings();
+            settings.Server = new MongoServerAddress("ds053778.mongolab.com", 53778);
+
+            var mcs = new MongoCredentialsStore();
+
+            mcs.AddCredentials("verifieddb", new MongoCredentials("admin", "mongo23"));
+            settings.CredentialsStore = new MongoCredentialsStore();
+            
+           // Create server object to communicate with our server
+            MongoServer server = new MongoServer(settings);
+
+            // Get our database instance to reach collections and data
+            var database = server.GetDatabase("verifieddb");
+
+            return database;
+        }
+
         public static void Add(VerifiedPersons person)
         {
-            var db = GetDatabase();
+            var db = GetLocalDatabase();
 
             var collection = db.GetCollection<VerifiedPersons>("verified");
 
@@ -47,7 +68,7 @@ namespace Zipper.BLL
         /// <returns></returns>
         public static List<Listing> RemoveVerified(List<Listing> listings, ZipCodes zip)
         {
-            var db = GetDatabase();
+            var db = GetLocalDatabase();
 
             var names = new List<Listing>();
 
