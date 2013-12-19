@@ -33,31 +33,26 @@ namespace Zipper.BLL
             MongoServerSettings settings = new MongoServerSettings();
             settings.Server = new MongoServerAddress("ds053778.mongolab.com", 53778);
 
-            var mcs = new MongoCredentialsStore();
-
-            mcs.AddCredentials("verifieddb", new MongoCredentials("admin", "mongo23"));
-            settings.CredentialsStore = new MongoCredentialsStore();
-            
            // Create server object to communicate with our server
             MongoServer server = new MongoServer(settings);
 
             // Get our database instance to reach collections and data
-            var database = server.GetDatabase("verifieddb");
-
+            var database = server.GetDatabase("verifieddb",new MongoCredentials("admin", "mongo23"));
+            
             return database;
         }
 
         public static void Add(VerifiedPersons person)
         {
-            var db = GetLocalDatabase();
+            var dbLab = GetRemoteDatabase();
+            
+            var labCollection = dbLab.GetCollection<VerifiedPersons>("verified");
 
-            var collection = db.GetCollection<VerifiedPersons>("verified");
-
-            var query = collection.AsQueryable<VerifiedPersons>().Where(e => e.StreetAddress == person.StreetAddress 
+            var query = labCollection.AsQueryable<VerifiedPersons>().Where(e => e.StreetAddress == person.StreetAddress
                                                                                 && e.ZipCode == person.ZipCode);
             if (!query.Any())
             {
-                collection.Insert(person);
+                labCollection.Insert(person);
             }
 
         }
