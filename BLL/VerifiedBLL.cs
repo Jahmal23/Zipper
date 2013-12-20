@@ -63,7 +63,7 @@ namespace Zipper.BLL
         /// <returns></returns>
         public static List<Listing> RemoveVerified(List<Listing> listings, ZipCodes zip)
         {
-            var db = GetLocalDatabase();
+            var db = GetRemoteDatabase();
 
             var names = new List<Listing>();
 
