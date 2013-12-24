@@ -31,6 +31,8 @@ namespace Zipper.Models
 
     public class Name
     {
+        public MongoDB.Bson.ObjectId _id { get; set; }
+
         public string Value { get; set; }
         public NameType Type { get; set; }
         public Language Lang { get; set; }

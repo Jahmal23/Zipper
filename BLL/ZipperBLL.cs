@@ -10,6 +10,9 @@ using System.Runtime.Serialization.Json;
 using System.Web.Script.Serialization;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using Zipper.DAL;
+using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
 
 namespace Zipper.BLL
 {
@@ -138,6 +141,15 @@ namespace Zipper.BLL
         {
             NameSource nameSource = new NameSource();
 
+            var db = DbLayer.GetRemoteDatabase();
+
+            var collection = db.GetCollection<Name>("searchNames");
+
+            var allNames = collection.AsQueryable<Name>();
+
+            nameSource.Names = allNames.ToList<Name>();
+
+
            // Name namea = new Name { Value = "Almeida", Lang = Language.Portuguese, Type = NameType.LastName };
            //Name namec = new Name { Value = "Antunes", Lang = Language.Portuguese, Type = NameType.LastName };
             //Name namee= new Name { Value = "Esteves", Lang = Language.Portuguese, Type = NameType.LastName };
@@ -150,33 +162,33 @@ namespace Zipper.BLL
            // Name nameaa = new Name { Value = "Teixeira", Lang = Language.Portuguese, Type = NameType.LastName };
          
      
-            nameSource.Names = new List<Name> { 
-                new Name { Value = "Andrade", Lang = Language.Portuguese, Type = NameType.LastName }, 
-                new Name { Value = "Carvalho", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Fernandes", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Ferreira", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Gonçalves", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Lopes", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Moreira", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Nogueira", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Oliveira", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Pires", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Pereira", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "dos Santos", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Silva", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Siqueira", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Soares", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "da Silva", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Brandão", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Pinheiro", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Machado", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Leite", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Gonsalves", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Gomes", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Domingues", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Lima", Lang = Language.Portuguese, Type = NameType.LastName },
-                new Name { Value = "Rodrigues", Lang = Language.Portuguese, Type = NameType.LastName }
-            };
+            //nameSource.Names = new List<Name> { 
+            //    new Name { Value = "Andrade", Lang = Language.Portuguese, Type = NameType.LastName }, 
+            //    new Name { Value = "Carvalho", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Fernandes", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Ferreira", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Gonçalves", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Lopes", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Moreira", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Nogueira", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Oliveira", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Pires", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Pereira", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "dos Santos", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Silva", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Siqueira", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Soares", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "da Silva", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Brandão", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Pinheiro", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Machado", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Leite", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Gonsalves", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Gomes", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Domingues", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Lima", Lang = Language.Portuguese, Type = NameType.LastName },
+            //    new Name { Value = "Rodrigues", Lang = Language.Portuguese, Type = NameType.LastName }
+            //};
 
             //nameSource.Names = new List<Name> { 
             //    new Name { Value = "Akwá", Lang = Language.Portuguese, Type = NameType.LastName }, 

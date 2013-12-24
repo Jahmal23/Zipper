@@ -7,45 +7,19 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
-
+using Zipper.DAL;
 
 namespace Zipper.BLL
 {
     public static class VerifiedBLL
     {
-        private static MongoDatabase GetLocalDatabase()
-        {
-            // Create server settings to pass connection string, timeout, etc.
-            MongoServerSettings settings = new MongoServerSettings();
-            settings.Server = new MongoServerAddress("localhost", 27017);
-
-            // Create server object to communicate with our server
-            MongoServer server = new MongoServer(settings);
-            // Get our database instance to reach collections and data
-            var database = server.GetDatabase("VerifiedDB");
-
-            return database;
-        }
-
-        private static MongoDatabase GetRemoteDatabase()
-        {
-            // Create server settings to pass connection string, timeout, etc.
-            MongoServerSettings settings = new MongoServerSettings();
-            settings.Server = new MongoServerAddress("ds053778.mongolab.com", 53778);
-
-           // Create server object to communicate with our server
-            MongoServer server = new MongoServer(settings);
-
-            // Get our database instance to reach collections and data
-            var database = server.GetDatabase("verifieddb",new MongoCredentials("admin", "mongo23"));
-            
-            return database;
-        }
-
+      
         public static void Add(VerifiedPersons person)
         {
-            var dbLab = GetRemoteDatabase();
-            
+            NameSource namesToSearch = ZipperBLL.GetAllNames();
+
+            var dbLab = DbLayer.GetRemoteDatabase();
+
             var labCollection = dbLab.GetCollection<VerifiedPersons>("verified");
 
             var query = labCollection.AsQueryable<VerifiedPersons>().Where(e => e.StreetAddress == person.StreetAddress
@@ -54,7 +28,6 @@ namespace Zipper.BLL
             {
                 labCollection.Insert(person);
             }
-
         }
 
         /// <summary>
@@ -63,7 +36,7 @@ namespace Zipper.BLL
         /// <returns></returns>
         public static List<Listing> RemoveVerified(List<Listing> listings, ZipCodes zip)
         {
-            var db = GetRemoteDatabase();
+            var db = DbLayer.GetRemoteDatabase();
 
             var names = new List<Listing>();
 
