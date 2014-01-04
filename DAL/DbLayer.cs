@@ -31,7 +31,7 @@ namespace Zipper.DAL
             MongoServerSettings settings = new MongoServerSettings();
             settings.Server = new MongoServerAddress("ds053778.mongolab.com", 53778);
 
-            var credential = MongoCredential.CreateMongoCRCredential("verifieddb", "admin", "password");
+            var credential = MongoCredential.CreateMongoCRCredential("verifieddb", "admin", "mongo23");
 
             settings.Credentials = new[] {credential};
 
