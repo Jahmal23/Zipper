@@ -167,6 +167,7 @@
     <Compile Include="Helpers\ZipRequest.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\JSONModels.cs" />
+    <Compile Include="Models\JSONModelsV2.cs" />
     <Compile Include="Models\ZipperModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
