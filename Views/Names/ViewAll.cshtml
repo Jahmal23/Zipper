@@ -1,17 +1,7 @@
 ﻿@model Zipper.Models.NameSource
-@using GridMvc.Html
 
 @{
     ViewBag.Title = "View";
 }
 
-<h2>Names used in searches</h2>
-
-<div style="width:500px;">
-    @Html.Grid(Model.Names).Columns(columns =>
-                    {
-                        columns.Add(c => c.Value).Titled("Name");
-                        columns.Add(c => c.Lang).Titled("Language").Filterable(true);
-                        columns.Add(c => c.Type).Titled("Type");
-                    }).WithPaging(10).Sortable(true)
-</div>
+<h2>Hi</h2>
