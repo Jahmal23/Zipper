@@ -13,23 +13,38 @@ using MongoDB.Bson;
 using Zipper.DAL;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Zipper.BLL
 {
     public static class ZipperBLL
     {
 
-        public static List<Listing> GetAddresses(NameSource nameSource, ZipCodes zip)
+        public static List<WPerson> GetAddresses(NameSource nameSource, ZipCodes zip)
         {
-            List<Listing> found = new List<Listing>();
-            
+            List<WPerson> found = new List<WPerson>();
+
+            int index = 0;
             if (IsValid(nameSource, zip))
             {
                 foreach (Name name in nameSource.Names)
                 {
                     var zipRequest = new ZipRequest(name.Value, zip.ZipCode);
-                    BuildPersonSearchResults(zipRequest.GetWebRequest(),zip, found);
+
+                    zipRequest.CreateWebRequest();
+
+                    string response = zipRequest.GetWebResponseString();
+
+                    BuildPersonSearchResults(response, zip, found);
                     Pause();
+
+                    index++;
+
+                    if (index > 10)
+                    {
+                        break;
+                    }
                 }
             }
             
@@ -37,7 +52,7 @@ namespace Zipper.BLL
 
             var finalList = VerifiedBLL.RemoveVerified(unique, zip);
 
-            return finalList.OrderByDescending(x => x.address.street).ThenBy(x => x.address.house).ToList();
+            return finalList.OrderByDescending(x => x.Street).ThenBy(x => x.House).ToList();
         }
 
         /// <summary>
@@ -45,59 +60,109 @@ namespace Zipper.BLL
         /// </summary>
         private static void Pause()
         {
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(3000);
         }
 
 
         /// <summary>
         /// Attempt to get a response from the uri and translate it into our business object
         /// </summary>
-        private static void BuildPersonSearchResults(WebRequest req, ZipCodes zip, List<Listing> found)
+        private static void BuildPersonSearchResults(string response, ZipCodes zip, List<WPerson> found)
         {
-            if (req != null)
+            if (!string.IsNullOrEmpty(response))
             {
                 try
                 {
-                    using (WebResponse response = req.GetResponse())
+                    dynamic rootObject = JObject.Parse(response);
+
+                    List<WPerson> persons = BuildPersonList(rootObject);
+                    CleanAndAdd(persons, zip, found);
+                }
+                catch { }
+            }
+        }
+
+
+        private static List<WPerson> BuildPersonList(dynamic rootObject)
+        {
+            //these will be person keys since we a do "person" search on the api
+            JArray keys = rootObject.results as JArray;
+
+            List<WPerson> whitePagePersons = new List<WPerson>();
+
+            foreach (string k in keys)
+            {
+                var wperson = new WPerson();
+                dynamic dPerson = rootObject.dictionary[k] as dynamic;
+
+                wperson.Name = dPerson.best_name;
+
+                //now get the location object.
+                if (dPerson.locations != null && dPerson.locations.Count > 0)
+                {
+                    wperson.LocationKey = dPerson.locations[0].id.key;
+                }
+
+
+                //get the phone object
+                if (dPerson.phones != null && dPerson.phones.Count > 0)
+                {
+                    wperson.PhoneKey = dPerson.phones[0].id.key;
+                }
+
+                whitePagePersons.Add(wperson);
+            }
+
+
+            foreach (WPerson p in whitePagePersons) //using the Location and Phone keys, complete the rest of the object.
+            {
+                if (!string.IsNullOrEmpty(p.LocationKey)) //else discard
+                {
+                    dynamic location = rootObject.dictionary[p.LocationKey] as dynamic;
+
+                    if (location != null)
                     {
-                        using (Stream stream = response.GetResponseStream())
-                        {
-                            using (StreamReader reader = new StreamReader(stream))
-                            {
-                                 string webresponse = reader.ReadToEnd();
-
-                                 var ser = new JavaScriptSerializer();
-
-                                 RootObject results = ser.Deserialize<RootObject>(webresponse);
-                                
-                                 ProcessResults(results, zip, found);
-
-                           }
-                        }
+                        p.Address = location.standard_address_line1;
+                        p.Zip = location.postal_code;
+                        p.Street = location.street_name;
+                        p.House = location.house;
                     }
                 }
-                catch {  } //todo report something
+
+
+                if (!string.IsNullOrEmpty(p.PhoneKey))
+                {
+                    dynamic phone = rootObject.dictionary[p.PhoneKey] as dynamic;
+
+                    if (phone != null)
+                    {
+                        p.Phone = phone.phone_number;
+                    }
+                }
             }
+
+            return whitePagePersons;
 
         }
 
         /// <summary>
-        /// Return the true matches from white pages.
+        /// Fill the found list with the true matches from white pages.
         /// </summary>
-        public static void ProcessResults(RootObject results, ZipCodes zip, List<Listing> found)
+        public static void CleanAndAdd(List<WPerson> persons, ZipCodes zip, List<WPerson> found)
         {
-            if (results != null && results.listings != null && results.listings.Count > 0)
+            if (persons != null && persons.Count > 0)
             {
-                 //white page will return nearby zipcodes on non match, we want exact
-                var hits = results.listings.Where(x => x.address != null && x.address.zip == zip.ZipCode);
+                 //white page will return nearby zipcodes on non matches, we want exact
+                var hits = persons.Where(x => !string.IsNullOrEmpty(x.Address)  && x.Zip == zip.ZipCode);
 
                 if (hits.Count() > 0)
                 {
                     found.AddRange(hits);
                 }
-
-             }
+            }
         }
+
+       
 
 
         /// <summary>
@@ -109,32 +174,27 @@ namespace Zipper.BLL
         }
 
         /// <summary>
-        /// White pages likes to return multiple results for each secondary member of household, 
-        /// while listing the primary as the display name.  Clean it up.
+        /// White pages likes to return multiple results for each secondary member of household/
         /// </summary>
-        private static List<Listing> GetUniqueResults(List<Listing> found)
+        private static List<WPerson> GetUniqueResults(List<WPerson> found)
         {
-            //get all where there doesn't exist another entry of the same display name or address
-            List<Listing> unique = new List<Listing>();
-
+            //get all where there doesn't exist another entry of the same address
             foreach (var i in found)
             {
-                bool dupe = false;
+                //you've already been marked as a dup, next!
+                if (!i.IsUnique) continue;
+
                 foreach (var j in found)
                 {
-                    if (i != j && (i.address.fullstreet == j.address.fullstreet))
+                    if (i != j && (i.Address == j.Address))
                     {
-                        dupe = true;
+                       j.IsUnique = false;
                     }
                 }
-
-                if (!dupe)
-                {
-                    unique.Add(i);
-                }
+              
             }
 
-            return unique;
+            return found.Where(x => x.IsUnique).ToList();
        }
 
         public static NameSource GetAllNames()

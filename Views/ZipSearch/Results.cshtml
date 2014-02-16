@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Zipper.Models.Listing>
+﻿@model IEnumerable<Zipper.Models.WPerson>
 
 @{
     ViewBag.Title = "Resultados";
@@ -26,13 +26,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.displayname)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.address.fullstreet)
+            @Html.DisplayFor(modelItem => item.Address)
         </td>
          <td>
-            @Html.DisplayFor(modelItem => item.phonenumbers[0].fullphone)
+            @Html.DisplayFor(modelItem => item.Phone)
         </td>
         <td></td>
     </tr>

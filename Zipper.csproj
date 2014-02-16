@@ -91,6 +91,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.6.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -166,7 +169,6 @@
     </Compile>
     <Compile Include="Helpers\ZipRequest.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\JSONModels.cs" />
     <Compile Include="Models\JSONModelsV2.cs" />
     <Compile Include="Models\ZipperModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

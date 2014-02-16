@@ -34,42 +34,28 @@ namespace Zipper.BLL
         /// Return all listings that have not already been verified.
         /// </summary>
         /// <returns></returns>
-        public static List<Listing> RemoveVerified(List<Listing> listings, ZipCodes zip)
+        public static List<WPerson> RemoveVerified(List<WPerson> persons, ZipCodes zip)
         {
             var db = DbLayer.GetRemoteDatabase();
 
-            var names = new List<Listing>();
+            var newPersons = new List<WPerson>();
 
             var collection = db.GetCollection<VerifiedPersons>("verified");
 
             var verifiedForZip = collection.AsQueryable<VerifiedPersons>();
-            foreach (var l in listings)
+            foreach (WPerson p in persons)
             {
                 bool newName = true;
-
-                if (l.address == null || string.IsNullOrWhiteSpace(l.address.street))
-                {
-                     //this result is useless
-                    newName = false;
-                    continue;
-                }
-
 
                 foreach (var vp in verifiedForZip)
                 {
                     
                     string verified = vp.StreetAddress.ToLower();
 
-                    bool streetMatch = verified.Contains(l.address.street.ToLower());
+                    bool streetMatch = verified.Contains(p.Address.ToLower());
 
-                    bool zipMatch = vp.ZipCode.ToString() == l.address.zip;
-
-                    if (!string.IsNullOrEmpty(l.address.aptnumber))
-                    {
-                        streetMatch &= verified.Contains(l.address.aptnumber.ToLower());
-                    }
-
-
+                    bool zipMatch = vp.ZipCode.ToString() == p.Zip;
+                
                     if (zipMatch && streetMatch) //not already verified!
                     {
                         newName = false;
@@ -77,14 +63,13 @@ namespace Zipper.BLL
                     
                 }
 
-
                 if (newName)
                 {
-                    names.Add(l);
+                    newPersons.Add(p);
                 }
             }
 
-            return names;
+            return newPersons;
            
         }
     }

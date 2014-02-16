@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Configuration;
 using System.Net;
 using System.Text;
+using System.IO;
 
 namespace Zipper.Helpers
 {
@@ -12,6 +13,8 @@ namespace Zipper.Helpers
     {
         private string ZipCode { get; set; }
         private string LastName { get; set; }
+
+        private WebRequest _req;
 
         public ZipRequest(string lastName, string zipCode)
         {
@@ -23,36 +26,58 @@ namespace Zipper.Helpers
         /// <summary>
         /// Generate the web request to search zipcodes
         /// </summary>
-        public WebRequest GetWebRequest()
+        public void CreateWebRequest()
         {
-            WebRequest req;
-
             try
             {
-                req = WebRequest.Create(BuildUri());
-                req.Method = "GET";
-                req.ContentType = "application/x-www-form-urlencoded";
+                _req = WebRequest.Create(BuildUri());
+                _req.Method = "GET";
+                _req.ContentType = "application/x-www-form-urlencoded";
             }
-            catch { req = null; }
+            catch { _req = null; }
+          
+        }
 
-            return req;
+
+
+        public string GetWebResponseString()
+        {
+            string response = string.Empty;
+
+            if (_req != null)
+            {
+                try
+                {
+                    using (WebResponse wp = _req.GetResponse())
+                    {
+                        using (Stream stream = wp.GetResponseStream())
+                        {
+                            using (StreamReader reader = new StreamReader(stream))
+                            {
+                                 response = reader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+                catch { } //todo report something
+            }
+
+            return response;
         }
 
         private string BuildUri()
         {
             StringBuilder uri = new StringBuilder(GetBaseUrl());
 
-            uri.Append("lastname=");
+            uri.Append("last_name=");
             uri.Append(LastName);
-            uri.Append(";");
-            uri.Append("zip=");
+            uri.Append("&");
+            uri.Append("postal_code=");
             uri.Append(ZipCode);
-            uri.Append(";");
+            uri.Append("&");
             uri.Append("api_key=");
             uri.Append(GetApiKey());
-            uri.Append(";");
-            uri.Append("outputtype=JSON");
-
+          
             return uri.ToString();
         }
 
