@@ -16,8 +16,7 @@ namespace Zipper.BLL
       
         public static void Add(VerifiedPersons person)
         {
-            NameSource namesToSearch = ZipperBLL.GetAllNames();
-
+           
             var dbLab = DbLayer.GetRemoteDatabase();
 
             var labCollection = dbLab.GetCollection<VerifiedPersons>("verified");

@@ -24,8 +24,8 @@ namespace Zipper.Controllers
         {
             if (ModelState.IsValid)
             {
-                NameSource namesToSearch = ZipperBLL.GetAllNames();
-               List<WPerson> persons = ZipperBLL.GetAddresses(namesToSearch, model);
+                NameSource namesToSearch = NamesBLL.GetAllNames();
+               List<WPerson> persons = ZipperBLL.GetSearchResults(namesToSearch, model);
 
                 ViewBag.ZipCode = model.ZipCode;
                 return View("Results", persons);

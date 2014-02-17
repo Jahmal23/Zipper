@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations; 
 
+
 namespace Zipper.Models
 {
     public class VerifiedPersons
@@ -25,7 +26,8 @@ namespace Zipper.Models
 
     public class NameSource
     {
-        public IEnumerable<Name> Names { get; set; }
+        IList<Name> _names = new List<Name>();
+        public IList<Name> Names { get { return _names; } set { _names = value; } }
     }
 
 
@@ -38,6 +40,7 @@ namespace Zipper.Models
         public Language Lang { get; set; }
     }
 
+   
     public enum NameType { FirstName, LastName, MiddleName }
     public enum Language { English, Portuguese, French }
 }
