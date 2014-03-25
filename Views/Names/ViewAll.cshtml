@@ -13,5 +13,47 @@
                         columns.Add(c => c.Value).Titled("Name");
                         columns.Add(c => c.Lang).Titled("Language").Filterable(true);
                         columns.Add(c => c.Type).Titled("Type");
+                        columns.Add().Encoded(false)
+                       .Sanitized(false).SetWidth(30).RenderValueAs(c => @Html.ActionLink("Remove", "Remove", new { id = c._id }, new { @class = "deletelink" }));
                     }).WithPaging(10).Sortable(true)
 </div>
+
+<div id="deletedialog" title="Confirmation">
+    <p>Are you sure you want to delete this name?</p>
+</div>	
+
+<script>
+    $(document).ready(function () {
+
+        $('.deletelink').click(function () {
+            deleteLinkObj = $(this);  //for future use
+            $('#deletedialog').dialog('open');
+            return false; // prevents the default behaviour
+        });
+
+        $('#deletedialog').dialog({
+            autoOpen: false, width: 400, resizable: false, modal: true, 
+            buttons: {
+                "Continue": function () {
+                   $.post(deleteLinkObj[0].href, function (data) {  //Post to action
+                      
+                      
+                       alert(data);
+                       if (data == "true")
+                       {
+                           alert("yea");
+                       }
+
+
+                   });
+                    $(this).dialog("close");
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        
+    });
+</script>

@@ -16,14 +16,18 @@ namespace Zipper.BLL
 {
     public static class NamesBLL
     {
-        
-        public static void ProcessNamesFile(HttpPostedFileBase f)
+        private const string STANDARD_HEADING = "name";
+        public static bool ProcessNamesFile(HttpPostedFileBase f)
         {
+
             NameSource namesource = new NameSource();
 
             ParseCSV(f, namesource);
             KillAndFillNames(namesource);
-          
+
+            bool success = (namesource.Names.Count > 0);
+
+            return success;
         }
 
 
@@ -41,7 +45,12 @@ namespace Zipper.BLL
                     try
                     {
                         string[] fields = vbParser.ReadFields();
-                        if (first)
+
+                        if (!(fields.Count() > 0)) continue; //sanity check
+
+                        string firstCol = fields[0];
+
+                        if (first && firstCol.ToLower() == STANDARD_HEADING)
                         {
                             first = false;
                             continue;
@@ -85,6 +94,15 @@ namespace Zipper.BLL
         public static bool IsValidFile(HttpPostedFileBase f)
         {
             return (f != null && f.ContentLength > 0 && f.FileName.EndsWith(".csv"));
+        }
+
+        public static void DeleteById(string id)
+        {
+            var db = DbLayer.GetRemoteDatabase();
+
+            var collection = db.GetCollection<Name>("searchNames");
+
+            collection.Remove(Query.EQ("_id", id));
         }
 
         public static NameSource GetAllNames()
