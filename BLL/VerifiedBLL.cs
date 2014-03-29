@@ -17,7 +17,7 @@ namespace Zipper.BLL
         public static void Add(VerifiedPersons person)
         {
            
-            var dbLab = DbLayer.GetRemoteDatabase();
+            var dbLab = DbLayer.GetDatabase();
 
             var labCollection = dbLab.GetCollection<VerifiedPersons>("verified");
 
@@ -35,7 +35,7 @@ namespace Zipper.BLL
         /// <returns></returns>
         public static List<WPerson> RemoveVerified(List<WPerson> persons, ZipCodes zip)
         {
-            var db = DbLayer.GetRemoteDatabase();
+            var db = DbLayer.GetDatabase();
 
             var newPersons = new List<WPerson>();
 

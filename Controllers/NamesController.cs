@@ -52,10 +52,9 @@ namespace Zipper.Controllers
         }
 
        [HttpPost]
-       public ActionResult Remove(string id)
+       public void Remove(string id)
        {
            NamesBLL.DeleteById(id);
-           return ViewAll();
        }
 
        public void ShowInvalidFormat()

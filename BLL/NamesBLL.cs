@@ -76,7 +76,7 @@ namespace Zipper.BLL
         {
             if (n.Names.Count > 0)
             {
-                var db = DbLayer.GetRemoteDatabase();
+                var db = DbLayer.GetDatabase();
 
                 var collection = db.GetCollection<Name>("searchNames");
 
@@ -98,18 +98,18 @@ namespace Zipper.BLL
 
         public static void DeleteById(string id)
         {
-            var db = DbLayer.GetRemoteDatabase();
+            var db = DbLayer.GetDatabase();
 
             var collection = db.GetCollection<Name>("searchNames");
 
-            collection.Remove(Query.EQ("_id", id));
+            collection.Remove(Query.EQ("_id", new ObjectId(id)));
         }
 
         public static NameSource GetAllNames()
         {
             NameSource nameSource = new NameSource();
 
-            var db = DbLayer.GetRemoteDatabase();
+            var db = DbLayer.GetDatabase();
 
             var collection = db.GetCollection<Name>("searchNames");
 

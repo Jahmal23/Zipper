@@ -26,7 +26,7 @@
     $(document).ready(function () {
 
         $('.deletelink').click(function () {
-            deleteLinkObj = $(this);  //for future use
+            deleteLinkObj = $(this);  //for future use to hide after the delete operation.
             $('#deletedialog').dialog('open');
             return false; // prevents the default behaviour
         });
@@ -35,15 +35,9 @@
             autoOpen: false, width: 400, resizable: false, modal: true, 
             buttons: {
                 "Continue": function () {
-                   $.post(deleteLinkObj[0].href, function (data) {  //Post to action
-                      
-                      
-                       alert(data);
-                       if (data == "true")
-                       {
-                           alert("yea");
-                       }
-
+                   $.post(deleteLinkObj[0].href, function () {  //Post to action
+                     
+                       deleteLinkObj.closest("tr").hide('fast'); //hide the deleted row.
 
                    });
                     $(this).dialog("close");

@@ -6,12 +6,25 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
+using System.Web.Configuration;
 
 namespace Zipper.DAL
 {
     public static class DbLayer
     {
-        public static MongoDatabase GetLocalDatabase()
+
+        public static MongoDatabase GetDatabase()
+        {
+            return (IsDebugMode() ? GetLocalDatabase() : GetRemoteDatabase());
+        }
+
+
+        public static bool IsDebugMode()
+        {
+            return Convert.ToBoolean(WebConfigurationManager.AppSettings["DebugMode"]);
+        }
+
+        private static MongoDatabase GetLocalDatabase()
         {
             // Create server settings to pass connection string, timeout, etc.
             MongoServerSettings settings = new MongoServerSettings();
@@ -25,7 +38,7 @@ namespace Zipper.DAL
             return database;
         }
 
-        public static MongoDatabase GetRemoteDatabase()
+        private static MongoDatabase GetRemoteDatabase()
         {
             // Create server settings to pass connection string, timeout, etc.
             MongoServerSettings settings = new MongoServerSettings();
