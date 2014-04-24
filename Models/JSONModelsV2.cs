@@ -27,13 +27,4 @@ namespace Zipper.Models
         }
     }
 
-
-    [Serializable, DataContract(Name = "RootObject")]
-    public class RootObject
-    {
-        public List<string> results { get; set; }
-
-        public Dictionary<string, dynamic> dictionary { get; set; }
-    }
-     
 }
