@@ -106,6 +106,15 @@ namespace Zipper.BLL
                         p.Zip = location.postal_code;
                         p.Street = location.street_name;
                         p.House = location.house;
+
+                        dynamic latlon = location.lat_long;
+
+                        if (latlon  != null)
+                        {
+                            p.Lat = latlon.latitude;
+                            p.Lon = latlon.longitude;
+                        }
+
                     }
                 }
 

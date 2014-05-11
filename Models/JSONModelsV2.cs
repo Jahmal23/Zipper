@@ -19,6 +19,9 @@ namespace Zipper.Models
         public string Street { get; set; }
         public string LocationKey { get; set; }
         public string PhoneKey { get; set; }
+        public string Lon { get; set; }
+        public string Lat { get; set; }
+
 
         public bool IsUnique
         {
