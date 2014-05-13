@@ -169,6 +169,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Helpers\ZipRequest.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\JSONModelsV2.cs" />

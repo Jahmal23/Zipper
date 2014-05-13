@@ -24,7 +24,9 @@ namespace Zipper.BLL
                     string response = zipRequest.GetWebResponseString();
 
                     BuildPersonSearchResults(response, zip, found);
+
                     Pause();
+
                 }
             }
             
@@ -122,10 +124,10 @@ namespace Zipper.BLL
                 if (!string.IsNullOrEmpty(p.PhoneKey))
                 {
                     dynamic phone = rootObject.dictionary[p.PhoneKey] as dynamic;
-
+                    
                     if (phone != null)
                     {
-                        p.Phone = phone.phone_number;
+                        p.Phone = Utils.FormatPhoneNumber(phone.phone_number.ToString());    
                     }
                 }
             }
