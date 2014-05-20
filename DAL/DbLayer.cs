@@ -12,16 +12,22 @@ namespace Zipper.DAL
 {
     public static class DbLayer
     {
-
+        public enum RunMode { Local, Staging, Prod }
         public static MongoDatabase GetDatabase()
         {
-            return (IsDebugMode() ? GetLocalDatabase() : GetRemoteDatabase());
-        }
+            RunMode runMode = (RunMode)Enum.Parse(typeof(RunMode), WebConfigurationManager.AppSettings["RunMode"].ToString());
 
-
-        public static bool IsDebugMode()
-        {
-            return Convert.ToBoolean(WebConfigurationManager.AppSettings["DebugMode"]);
+            switch (runMode)
+            {
+                case RunMode.Local:
+                    return GetLocalDatabase();
+                case RunMode.Staging:
+                    return GetStagingDatabase();
+                case RunMode.Prod:
+                    return GetProductionDatabase();
+                default:
+                    return GetLocalDatabase();
+            }
         }
 
         private static MongoDatabase GetLocalDatabase()
@@ -38,7 +44,7 @@ namespace Zipper.DAL
             return database;
         }
 
-        private static MongoDatabase GetRemoteDatabase()
+        private static MongoDatabase GetProductionDatabase()
         {
             // Create server settings to pass connection string, timeout, etc.
             MongoServerSettings settings = new MongoServerSettings();
@@ -53,6 +59,25 @@ namespace Zipper.DAL
            
             // Get our database instance to reach collections and data
             var database = server.GetDatabase("verifieddb");
+
+            return database;
+        }
+
+        private static MongoDatabase GetStagingDatabase()
+        {
+            // Create server settings to pass connection string, timeout, etc.
+            MongoServerSettings settings = new MongoServerSettings();
+            settings.Server = new MongoServerAddress("ds043398.mongolab.com", 43398);
+
+            var credential = MongoCredential.CreateMongoCRCredential("verifieddbstaging", "admin", "mongo23");
+
+            settings.Credentials = new[] { credential };
+
+            // Create server object to communicate with our server
+            MongoServer server = new MongoServer(settings);
+
+            // Get our database instance to reach collections and data
+            var database = server.GetDatabase("verifieddbstaging");
 
             return database;
         }
