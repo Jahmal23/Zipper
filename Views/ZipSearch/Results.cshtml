@@ -6,7 +6,6 @@
 
 <h2>Territorio de Censo - @ViewBag.Zipcode </h2>
 
-
 <table>
     <tr>
         <th>
@@ -38,3 +37,34 @@
     </tr>
 }
 </table>
+<div><br /></div>
+<div id="googleMap" style="left:0px;top:0px; width:500px; height:600px;"></div>
+
+<script>
+    $(document).ready(function () {
+
+        var mapOptions = {
+            center: new google.maps.LatLng(43.80281871904721, -100.28320312500001),
+            zoom: 5,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var googleMap = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+
+        var resultData = {
+            data: new Array(),
+            latLons: new Array()
+        };
+
+        @foreach (var item in Model)
+        {
+
+             @:var latLong = new google.maps.LatLng(@item.Lat, @item.Lon);
+             @:resultData.latLons.push(latLong);
+             @:resultData.data.push('@item.Name @item.Address');
+
+        }
+
+        googleAddPushpins(googleMap, resultData);
+    });
+</script>
