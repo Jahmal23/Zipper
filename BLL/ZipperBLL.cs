@@ -8,7 +8,6 @@ namespace Zipper.BLL
 {
     public static class ZipperBLL
     {
-
         public static List<WPerson> GetSearchResults(NameSource nameSource, ZipCodes zip)
         {
             List<WPerson> found = new List<WPerson>();
@@ -24,7 +23,7 @@ namespace Zipper.BLL
                     string response = zipRequest.GetWebResponseString();
 
                     BuildPersonSearchResults(response, zip, found);
-
+                    
                     Pause();
 
                 }
@@ -35,6 +34,50 @@ namespace Zipper.BLL
             var finalList = VerifiedBLL.RemoveVerified(unique, zip);
 
             return finalList.OrderByDescending(x => x.Street).ThenBy(x => x.House).ToList();
+        }
+
+
+
+        public static List<WPerson> GetMockResults()
+        {
+            List<string> latlons = new List<string>{
+                
+            "40.764551, -73.923697", 
+            "40.766372,-73.921638",
+            "40.769557,-73.917947",
+            "40.766437,-73.914685",
+            "40.775082,-73.913569",
+            "40.758180,-73.921380",
+            "40.756425,-73.916337",
+            "40.756457,-73.904364",
+            "40.755222,-73.898227",
+            "40.754409,-73.921573",
+            "40.746152,-73.920157",
+            "40.746802,-73.914492",
+            "40.744331,-73.910844",
+            "40.742933,-73.906767",
+            "40.735324,-73.902991",
+            "40.755027,-73.945949",
+            "40.757173,-73.940585",
+            "40.759188,-73.941615",
+            "40.784018,-73.914621",
+            "40.777844,-73.907068",
+            "40.771019,-73.890331",
+            "40.765169,-73.903935"};
+            
+            var lat = latlons[0].Split(',')[0];
+            List<WPerson> list = new List<WPerson>();
+            for(int i = 0; i < 22; i++)
+            {
+                list.Add(new WPerson() { Name = "Foo" + i, 
+                                         Address = i + " " + i + "st street", 
+                                         Phone = "555-555-5555",
+                                         Lat = latlons[i].Split(',')[0],
+                                         Lon = latlons[i].Split(',')[1]
+                });
+            }
+
+            return list;
         }
 
         /// <summary>

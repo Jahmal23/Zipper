@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
-using System.Net;
+﻿using System.Net;
 using System.Text;
 using System.IO;
 
@@ -83,12 +78,12 @@ namespace Zipper.Helpers
 
         private string GetBaseUrl()
         {
-            return WebConfigurationManager.AppSettings["ZipSearchUri"];
+            return Utils.GetConfigSetting("ZipSearchUri"); 
         }
 
         private string GetApiKey()
         {
-            return WebConfigurationManager.AppSettings["WhitePagesApiKey"];
+            return Utils.GetConfigSetting("WhitePagesApiKey"); 
         }
     }
 }

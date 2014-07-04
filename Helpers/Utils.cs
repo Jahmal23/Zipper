@@ -1,4 +1,5 @@
 ﻿
+using System.Web.Configuration;
 namespace Zipper.Helpers
 {
     public static class Utils
@@ -21,6 +22,21 @@ namespace Zipper.Helpers
             }
 
             return formatted;
+        }
+         
+        public static string GetConfigSetting(string key)
+        {
+            string val;
+            try
+            {
+                val = WebConfigurationManager.AppSettings[key].ToString();
+            }
+            catch
+            {
+                val = string.Empty;
+            }
+
+            return val;
         }
     }
 

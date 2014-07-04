@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using MongoDB.Driver;
-using MongoDB.Bson;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver.Linq;
-using System.Web.Configuration;
+using Zipper.Helpers;
 
 namespace Zipper.DAL
 {
     public static class DbLayer
     {
-        public enum RunMode { Local, Staging, Prod }
         public static MongoDatabase GetDatabase()
         {
-            RunMode runMode = (RunMode)Enum.Parse(typeof(RunMode), WebConfigurationManager.AppSettings["RunMode"].ToString());
+            var runMode = (RunMode)Enum.Parse(typeof(RunMode), Utils.GetConfigSetting("RunMode"));
 
             switch (runMode)
             {

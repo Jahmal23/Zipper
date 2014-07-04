@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Zipper.Models;
 using Zipper.BLL;
+using Zipper.Helpers;
 
 namespace Zipper.Controllers
 {
@@ -24,9 +25,18 @@ namespace Zipper.Controllers
         {
             if (ModelState.IsValid)
             {
-                NameSource namesToSearch = NamesBLL.GetAllNames();
-                List<WPerson> persons = ZipperBLL.GetSearchResults(namesToSearch, model);
-              
+                List<WPerson> persons;
+
+                if(Convert.ToBoolean(Utils.GetConfigSetting("MockAPI")))  //use fake data for testing.
+                {
+                    persons = ZipperBLL.GetMockResults();
+                }
+                else //really hit the whitepages api
+                {
+                    NameSource namesToSearch = NamesBLL.GetAllNames();
+                    persons = ZipperBLL.GetSearchResults(namesToSearch, model);
+                }
+
                 ViewBag.ZipCode = model.ZipCode;
                 return View("Results", persons);
             }
