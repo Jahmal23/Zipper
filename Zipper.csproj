@@ -300,7 +300,7 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Scripts\jquery.min.map" />
     <Content Include="Views\Names\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
