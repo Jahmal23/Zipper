@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Metro-UI-CSS</id>
+    <version>2.0.31.1</version>
+    <title>Metro UI CSS</title>
+    <authors>Sergey Pimenov, Sergey Volkov, Valerio Battaglia</authors>
+    <owners>Sergey Pimenov, Sergey Volkov, Valerio Battaglia</owners>
+    <licenseUrl>https://raw.github.com/olton/Metro-UI-CSS/master/LICENSE</licenseUrl>
+    <projectUrl>http://metroui.org.ua/</projectUrl>
+    <iconUrl>https://raw.github.com/sirkirby/Metro-UI-CSS-nuget/master/pkglogo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Metro UI CSS a set of styles to create a site with an interface similar to Windows 8. This set of styles was developed as a self-contained solution. Package issues? post them here https://github.com/sirkirby/Metro-UI-CSS-nuget/issues</description>
+    <releaseNotes>- updated to latest source
+- merged patch to fix some references
+
+https://github.com/olton/Metro-UI-CSS/blob/master/CHANGELOG.md</releaseNotes>
+    <tags>css javascript bootstrap frontend less metro metroui modern modernui</tags>
+    <dependencies>
+      <dependency id="WebActivatorEx" version="2.0.4" />
+      <dependency id="Microsoft.AspNet.Web.Optimization" version="1.1.2" />
+      <dependency id="jQuery" version="1.10.2" />
+    </dependencies>
+  </metadata>
+</package>

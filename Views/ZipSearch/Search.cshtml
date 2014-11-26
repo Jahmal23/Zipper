@@ -4,14 +4,11 @@
     ViewBag.Title = "Search";
 }
 
-<h2>Search for names in a Zip</h2>
+<h2>Search for names in a Zip Code</h2>
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-<style type="text/css">
-
-</style>
 
 
 <script type="text/javascript">
@@ -46,14 +43,12 @@
 
 @using (Html.BeginForm())
 {
-       <div class="editor-label">
-        @Html.LabelFor(m => m.ZipCode)
-      </div>
-    
+      <br />
       <div class="editor-field">
+       
         @Html.EditorFor(m => m.ZipCode)
-        @Html.ValidationMessageFor(m => m.ZipCode)
-        &nbsp;<input type="submit" id="Search" value="      Go!     " />
+      
+        &nbsp;<input type="submit" id="Search" value="      Go!     " />@Html.ValidationMessageFor(m => m.ZipCode)
       </div>
     
     <div id="loading">

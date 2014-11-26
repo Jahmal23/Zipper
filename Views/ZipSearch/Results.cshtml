@@ -6,39 +6,43 @@
 
 <h2>Territorio de Censo - @ViewBag.Zipcode </h2>
 
-<table>
+
+    <table class="centered">
     <tr>
         <th>
             Nome
         </th>
         <th>
-           Endereço
+            Endereço
         </th>
         <th>
-           Número
+            Número
         </th>
         <th>
-          Fala Portuguese?
+            Fala Portuguese?
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-         <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td></td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td></td>
+        </tr>
+    }
 </table>
-<div><br /></div>
-<div id="googleMap" style="left:0px;top:0px; width:500px; height:600px;"></div>
+
+    <div><br /></div>
+    <div id="googleMap" style="width: 600px; height: 600px; margin-left:25%;"></div>
+
 
 <script>
     $(document).ready(function () {

@@ -7,7 +7,7 @@
 
 <h2>Names used in searches</h2>
 
-<div style="width:500px;">
+<div style="width:80%">
     @Html.Grid(Model.Names).Columns(columns =>
                     {
                         columns.Add(c => c.Value).Titled("Name");
@@ -15,7 +15,7 @@
                         columns.Add(c => c.Type).Titled("Type");
                         columns.Add().Encoded(false)
                        .Sanitized(false).SetWidth(30).RenderValueAs(c => @Html.ActionLink("Remove", "Remove", new { id = c._id }, new { @class = "deletelink" }));
-                    }).WithPaging(10).Sortable(true)
+                    }).WithPaging(30).Sortable(true)
 </div>
 
 <div id="deletedialog" title="Confirmation">

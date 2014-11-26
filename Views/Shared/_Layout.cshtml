@@ -3,35 +3,37 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
-    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+    
+    <script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/metro-ui/jquery.widget.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery-ui-1.10.4.min.js")"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link href="@Url.Content("~/Content/metro-ui/css/metro-bootstrap.css")" rel="stylesheet" type="text/css" />
+ 
+    <script src="@Url.Content("~/Scripts/metro-ui/metro.min.js")"></script>
+ 
+
+   <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" />
+    
     <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
     <script src="@Url.Content("~/Scripts/spin.min.js")"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdXNnAZzoKmQ4dQCzKBL_2aVNvg41kEDI&sensor=true"></script>
     <script src="@Url.Content("~/Scripts/googleMapHelper.js")"></script>
 </head>
 
-<body>
+<body class="metro">
     <div class="page">
         <header>
             <div id="title">
                 <h1>Zipper</h1>
             </div>
-            <div id="logindisplay">
-                @Html.Partial("_LogOnPartial")
-            </div>
             <nav>
-                <ul id="menu">
-                    <li>@Html.ActionLink("ZipSearch", "Search", "ZipSearch")</li>
-                    <li>@Html.ActionLink("Add to Skip List", "Verify", "Verified")</li>
-                    <li>@Html.ActionLink("View Names", "ViewAll", "Names")</li>
-                    <li>@Html.ActionLink("Upload Names", "Upload", "Names")</li>
-                </ul>
+                @Html.ActionLink("ZipSearch", "Search", "ZipSearch")
+                @Html.ActionLink("Add to Skip List", "Verify", "Verified")
+                @Html.ActionLink("View Names", "ViewAll", "Names")
+                @Html.ActionLink("Upload Names", "Upload", "Names")
             </nav>
         </header>
         <section id="main">
