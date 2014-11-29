@@ -12,7 +12,7 @@ namespace Zipper.DAL
 
             switch (runMode)
             {
-                case RunMode.Local:
+                case RunMode.Dev:
                     return GetLocalDatabase();
                 case RunMode.Staging:
                     return GetStagingDatabase();

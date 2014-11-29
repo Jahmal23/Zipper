@@ -5,5 +5,5 @@ using System.Web;
 
 namespace Zipper.Helpers
 {
-    public enum RunMode { Local, Staging, Prod }
+    public enum RunMode { Dev, Staging, Prod }
 }
