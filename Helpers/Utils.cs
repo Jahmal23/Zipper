@@ -38,6 +38,12 @@ namespace Zipper.Helpers
 
             return val;
         }
+
+        //used primarily for unit testing
+        public static void SetConfigSetting(string key, string val)
+        {
+            WebConfigurationManager.AppSettings[key] = val;
+        }
     }
 
 }

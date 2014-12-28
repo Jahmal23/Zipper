@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zipper", "Zipper.csproj", "{B6D1D956-5EAD-421E-8281-7AAB5B80D505}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZipperTests", "..\ZipperTests\ZipperTests.csproj", "{2F928804-B971-4E66-8FC6-778C6D85E48C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B6D1D956-5EAD-421E-8281-7AAB5B80D505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6D1D956-5EAD-421E-8281-7AAB5B80D505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6D1D956-5EAD-421E-8281-7AAB5B80D505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F928804-B971-4E66-8FC6-778C6D85E48C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F928804-B971-4E66-8FC6-778C6D85E48C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F928804-B971-4E66-8FC6-778C6D85E48C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F928804-B971-4E66-8FC6-778C6D85E48C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

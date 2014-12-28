@@ -33,7 +33,24 @@ namespace Zipper.BLL
 
         public static NameSource ParseCSV(HttpPostedFileBase f, NameSource n)
         {
-            using (var reader = new StreamReader(f.InputStream))
+            if (f != null)
+            {
+               return ParseCSV(f.InputStream, n);
+            }
+            else
+            {
+                return n;
+            }
+        }
+
+        public static NameSource ParseCSV(Stream s, NameSource n)
+        {
+            if (s == null)
+            {
+                return n;
+            }
+
+            using (var reader = new StreamReader(s))
             using (var vbParser = new TextFieldParser(reader))
             {
                 vbParser.TextFieldType = FieldType.Delimited;
@@ -102,8 +119,18 @@ namespace Zipper.BLL
 
             var collection = db.GetCollection<Name>("searchNames");
 
-            collection.Remove(Query.EQ("_id", new ObjectId(id)));
+            try
+            {
+                collection.Remove(Query.EQ("_id", new ObjectId(id)));
+            }
+            catch
+            {
+                //swallow and just don't delete the requested bad id.
+            }
+       
         }
+
+        
 
         public static NameSource GetAllNames()
         {
