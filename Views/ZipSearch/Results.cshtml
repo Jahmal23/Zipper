@@ -43,7 +43,6 @@
     <div><br /></div>
     <div id="googleMap" style="width: 600px; height: 600px; margin-left:25%;"></div>
 
-
 <script>
     $(document).ready(function () {
 
@@ -60,15 +59,18 @@
             latLons: new Array()
         };
 
+        var tsp = new BpTspSolver(googleMap, null);
+        tsp.setTravelMode(google.maps.DirectionsTravelMode.DRIVING);
+
+
         @foreach (var item in Model)
         {
 
-             @:var latLong = new google.maps.LatLng(@item.Lat, @item.Lon);
-             @:resultData.latLons.push(latLong);
-             @:resultData.data.push('@item.Name @item.Address');
-
+            @:var latLong = new google.maps.LatLng(@item.Lat, @item.Lon);
+            @:resultData.latLons.push(latLong);
+            @:resultData.data.push('@item.Name @item.Address');
+            @:tsp.addWaypoint(latLong, null);       
         }
 
-        googleAddPushpins(googleMap, resultData);
     });
 </script>

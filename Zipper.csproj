@@ -76,6 +76,7 @@
       <HintPath>packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Solver.Foundation" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -164,6 +165,7 @@
   <ItemGroup>
     <Compile Include="App_Start\MetroUICSSBundleConfig.cs" />
     <Compile Include="BLL\NamesBLL.cs" />
+    <Compile Include="BLL\TravelingSalesmanBLL.cs" />
     <Compile Include="BLL\VerifiedBLL.cs" />
     <Compile Include="BLL\ZipperBLL.cs" />
     <Compile Include="Controllers\AccountController.cs" />
