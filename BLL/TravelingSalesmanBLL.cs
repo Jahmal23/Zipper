@@ -11,6 +11,15 @@ namespace Zipper.BLL
     /// </summary>
     public class TravelingSalesmanBLL
     {
+
+        //public static Coordinate[] GeocodeAddresses(List<string> addresses)
+        //{
+        //    var coords = new Coordinate[addresses.Count - 1];
+
+
+        //}
+
+
         private static void SolveTsp(Coordinate[] data)
         {
             SolverContext context = SolverContext.GetContext();
@@ -56,7 +65,7 @@ namespace Zipper.BLL
               )
             );
 
-            Solution solution = context.Solve();
+          //  Solution solution = context.Solve();
 
             // Retrieve solution information.
             Console.WriteLine("Cost = {0}", goal.ToDouble());
